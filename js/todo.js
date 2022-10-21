@@ -3,13 +3,21 @@
 
 let listDOM = document.querySelector('#list')
 let input = document.querySelector('#task')
-let liNode = document.querySelectorAll('li button')
-// console.log(liNode)
-liNode[0].addEventListener('click', removeElement)
-// addEventListenerList(liNode, 'click', removeElement)
+let liNode = document.querySelectorAll('li')
+let closeButton = document.querySelectorAll('li button')
+let done = document.querySelectorAll('li')
 
+addEventListenerList(closeButton, 'click', removeNode)
+addEventListenerList(done, 'click', doneFunc)
+
+function addEventListenerList(list, event, fn) {
+  for (var i = 0; i < list.length; i++) {
+    list[i].addEventListener(event, fn, false);
+  }
+}
 
 // Yeni element ekleme fonksiyonu
+
 
 
 function newElement() {
@@ -18,16 +26,15 @@ function newElement() {
   <span aria-hidden="true">&times;</span>
 </button>`
   listDOM.append(newItem)
+  addEventListenerList(newItem.childNodes, 'click', removeNode)
+  newItem.addEventListener('click', doneFunc)
 }
 
-function removeElement() {
-  let nodeId = docuemnt.querySelector(liNode[this.id])
-  console.log(nodeId)
-  // listDOM.remove(nodeId)
+function removeNode() {
+  this.parentElement.remove()
 }
 
-/* function addEventListenerList(list, event, fn) {
-  for (var i = 0; i < list.length; i++) {
-    list[i].addEventListener(event, fn, false);
-  }
-} */
+function doneFunc() {
+  this.classList.add('checked')
+}
+
